@@ -1,0 +1,611 @@
+/*
+ * Base styles
+ */
+html,
+button,
+input,
+select,
+textarea {
+  color: #555;
+}
+
+html {
+  font-size: 1em;
+  line-height: 1.4;
+}
+
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+::selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+
+audio,
+canvas,
+img,
+video {
+  vertical-align: middle;
+}
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* Use the better box model on everything */
+*, *:before, *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/*
+ * Default typography and styling
+ */
+body {
+  font: 16px/26px Helvetica, Helvetica Neue, Arial;
+}
+
+.wrapper {
+  position: relative;
+  width: 90%;
+  margin: 0 5%;
+}
+
+.well {
+  display: block;
+  width: 65%;
+  margin: 20% auto 0px auto;
+  padding: 20px;
+
+  background-color: #dedede;
+  border: 1px solid #d0d0d0;
+  -webkit-box-shadow: 5px 10px 15px 0px rgba(50, 50, 50, 0.5);
+  -moz-box-shadow:    5px 10px 15px 0px rgba(50, 50, 50, 0.5);
+  box-shadow:         5px 10px 15px 0px rgba(50, 50, 50, 0.5);
+}
+
+/*
+ * The "home" button
+ */
+.fa-home {
+  position: absolute;
+  top: 5px;
+  left: -36px;
+  font-size: 24px;
+}
+
+.fa-home:link,
+.fa-home:visited,
+.fa-home:hover,
+.fa-home:focus,
+.fa-home:active {
+  color: #c0c0c0;
+  text-decoration: none;
+}
+
+.fa-home:hover,
+.fa-home:focus,
+.fa-home:active {
+  color: #70546d;
+}
+
+/*
+ * Index page components
+ */
+.terminals {
+  display: -ms-flexbox;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: flex;
+
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+
+  margin: 0px 0px 0px -10px;
+  padding: 0px;
+  list-style: none;
+}
+
+.terminals li {
+  display: block;
+  margin: 8px;
+  width: 31%;
+
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+.terminals.compact li {
+  width: 8%;
+  font-size: 24px;
+}
+
+.terminals li a {
+  display: block;
+  padding: 10px 20px;
+  min-height: 3em;
+
+  color: #333;
+  background-color: #ccc;
+
+  text-decoration: none;
+}
+
+.terminals.compact li a {
+  padding: 33% 20px;
+  text-align: center;
+}
+
+.terminals li a:link,
+.terminals li a:visited {
+  color: inherit;
+}
+
+.terminals li a:hover,
+.terminals li a:focus {
+  color: #eee;
+  background-color: #70546d;
+}
+
+.terminals li a:active {
+  color: #eee;
+  background-color: #595470;
+}
+
+/*
+ * General table styles
+ */
+table {
+  table-layout: fixed;
+  width: 100%;
+  max-width: 100%;
+}
+
+table th,
+table td {
+  padding: 5px 0px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+
+table thead th {
+  color: #eee;
+  background-color: #0f0f0f;
+}
+
+table td {
+  font-size: 14px;
+}
+
+table tr a:link,
+table tr a:visited,
+table tr a:hover,
+table tr a:focus,
+table tr a:active {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dotted #eee;
+  border-bottom-color: inherit;
+}
+
+/*
+ * Work To List table styles
+ */
+table td.order,
+table td.op {
+  font-size: 16px;
+}
+table td.description {font-size: 11px;}
+
+table .order {width: 100px; padding-left: 5px;}
+table .op {width: 60px;}
+table .part {width: 33%;}
+table .description {width: 66%;}
+table .qty {width: 50px; padding-right: 10px; text-align: right;}
+table .work-center {width: 150px; padding-right: 10px; text-align: right;}
+table .machine {width: 60px;}
+table .terminal {width: 40px; display: none;}
+table .bookings {
+  position: relative;
+  width: 40px;
+  overflow: visible;
+  background-color: #fff;
+  text-align: center;
+}
+
+.show-terminal .terminal {display: table-cell;}
+
+table td.op:before {
+  content: "/";
+
+  float: left;
+  margin-top: 8px;
+  margin-right: 4px;
+
+  font-size: 10px;
+  line-height: 12px;
+}
+
+/*
+ * Bookings popover styles
+ */
+.bookings>table {
+  display: none;
+  visibility: hidden;
+}
+
+.bookings>i {
+  color: inherit;
+  background-color: transparent;
+  border-radius: 16px;
+  font-size: 14px;
+  height: 24px;
+  line-height: 24px;
+  width: 24px;
+  text-align: center;
+}
+
+.bookings th,
+.bookings td {
+  padding-left: 7px;
+  padding-right: 7px;
+}
+
+@media only screen and (max-width: 1023px) {
+  .bookings.popover-active>table {
+    display: table;
+    visibility: visible;
+    position: absolute;
+    bottom: -50%;
+    left: -400px;
+    width: 400px;
+    table-layout: initial;
+    max-width: none;
+    color: #555;
+    background-color: #fff;
+    -webkit-box-shadow: 0px 10px 5px 0px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow:    0px 10px 5px 0px rgba(50, 50, 50, 0.75);
+    box-shadow:         0px 10px 5px 0px rgba(50, 50, 50, 0.75);
+  }
+}
+
+/*
+ * Indirect bookings table styles
+ */
+.indirects table {
+    max-width: 720px
+}
+
+.indirects table .description {
+    width: auto;
+}
+
+.indirects table .employee {
+    width: 25%;
+}
+
+.indirects table .booked-at,
+.indirects table .category {
+    width: 15%;
+}
+
+.indirects table .operations {
+    position: relative;
+    overflow: visible;
+    width: 10%;
+    min-width: 75px;
+    text-align: center;
+}
+
+.indirects .operations>span,
+.indirects .operations .buffer>span {
+  display: inline-block;
+  border-radius: 16px;
+  font-size: 14px;
+  height: 24px;
+  line-height: 24px;
+  width: 24px;
+  text-align: center;
+}
+
+.indirects .operations.popover-active>span {
+  color: #555;
+  background-color: #c0c0c0;
+}
+
+.indirects .operations>table {
+  display: none;
+  visibility: hidden;
+}
+
+.indirects .operations>table th,
+.indirects .operations>table td {
+  padding-left: 7px;
+  padding-right: 7px;
+}
+
+.indirects .operations>table .buffer {
+    width: 60px;
+    text-align: center;
+}
+
+.indirects .operations .buffer>span {
+    color: transparent;
+    font-size: 10px;
+    text-align: center;
+}
+
+.indirects .operations.popover-active>table {
+    display: table;
+    visibility: visible;
+    position: absolute;
+    bottom: -50%;
+    left: -480px;
+    width: 500px;
+    color: #555;
+    background-color: #fff;
+    -webkit-box-shadow: 0px 10px 5px 0px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow:    0px 10px 5px 0px rgba(50, 50, 50, 0.75);
+    box-shadow:         0px 10px 5px 0px rgba(50, 50, 50, 0.75);
+}
+
+/*
+ * Zone Colours
+ */
+.zone-black,
+table .zone-black .bookings.popover-active>i,
+.indirects .operations>span
+{color: #eeeeee;  background-color: #202020;}
+table .zone-black .bookings {color: #202020;}
+
+.zone-red,
+table .zone-red .bookings.popover-active>i
+{color: #eeeeee; background-color: #d04040;}
+table .zone-red  .bookings {color: #d04040;}
+
+.zone-yellow,
+table .zone-yellow .bookings.popover-active>i
+{color: inherit;   background-color: #dcd237;}
+table .zone-yellow .bookings {color: #dcd237;}
+
+.zone-green,
+table .zone-green .bookings.popover-active>i
+{color: inherit;  background-color: #90dc37;}
+table .zone-green .bookings {color: #90dc37;}
+
+.zone-blue,
+table .zone-blue .bookings.popover-active>i
+{color: #eeeeee; background-color: #3771dc;}
+table .zone-blue .bookings {color: #3771dc;}
+
+table .zone-yellow .bookings.popover-active>i,
+table .zone-green .bookings.popover-active>i
+{color: #eeeeee;}
+
+/*
+ * Mini page styles
+ */
+@media only screen and (max-width: 767px) {
+  .wrapper {
+    width: 100%;
+    margin: 10px;
+  }
+
+  .fa-home {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    background-color: rgba(50, 50, 50, 0.5);
+    text-align: center;
+  }
+
+  .terminals {
+    margin-right: 0px;
+  }
+
+  .terminals li,
+  .terminals.compact li {
+    font-size: 14px;
+  }
+
+  .terminals li a,
+  .terminals.compact li a {
+    padding: 5px 10px;
+    min-height: 3em;
+  }
+
+  .terminals li.current {
+    display: block;
+    width: 95%;
+    text-align: center;
+  }
+  .terminals li.current a {
+    padding: 10px 10px;
+    min-height: initial;
+  }
+
+  .terminals.compact li {
+    width: auto;
+  }
+
+  table .part,
+  table .work-center {
+    display: none;
+  }
+}
+
+/*
+ * Mid page styles
+ */
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+  table .work-center {
+    display: none;
+  }
+}
+
+/*
+ * Max width page styles
+ */
+@media only screen and (min-width: 1024px) {
+  .wrapper {
+    margin: 0 auto;
+  }
+
+  .work-to-list table {
+  }
+
+  table .bookings {
+    width: 75%;
+  }
+
+  .bookings>table {
+    display: initial;
+    visibility: visible;
+    position: absolute;
+    top: 5px;
+    left: 30px;
+  }
+
+  .bookings>table thead,
+  .bookings>table .supervisor {
+    display: none;
+    visibility: hidden;
+  }
+
+  .bookings>i,
+  .bookings>table tbody tr {
+    display: inline-block;
+    float: left;
+  }
+
+  .bookings>table tbody tr td {
+    display: inline;
+    padding: 0px;
+    color: #555;
+  }
+
+  .bookings>table tbody tr:before {
+    content: ", ";
+    margin-right: 5px;
+  }
+
+  .bookings>table tbody tr:first-child:before {
+    content: "";
+    margin-right: 0px;
+  }
+
+  .bookings>table tbody .booked-at:before {
+    content: "@";
+    margin: 0px 0.5em;
+    font-size: 10px;
+    color: #888;
+  }
+}
+
+/*
+ * Helper classes
+ */
+.ir {
+  background-color: transparent;
+  border: 0;
+  overflow: hidden;
+  *text-indent: -9999px;
+}
+
+.ir:before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 150%;
+}
+
+.hidden {
+  display: none !important;
+  visibility: hidden;
+}
+
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+.clearfix {
+  *zoom: 1;
+}
+
+/*
+ * React animations
+ */
+.work-to-list-enter {
+  opacity: 0.01;
+  transition: opacity 1.5s ease-in;
+}
+
+.work-to-list-enter.work-to-list-enter-active {
+  opacity: 1;
+}
+
+.work-to-list-leave {
+  opacity: 1;
+  transition: opacity 1.5s ease-out;
+}
+
+.work-to-list-leave.work-to-list-leave-active {
+  opacity: 0.01;
+}

@@ -1,0 +1,83 @@
+<!-- Logback Configuration. See http://logback.qos.ch/ -->
+<configuration>
+  <property resource="log_dev_app.properties" />
+
+   <!-- Console (STDOUT) output. -->
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <!-- Only print log messages at level WARN or higher. -->
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>WARN</level>
+    </filter>
+
+    <encoder>
+      <pattern>%date{HH:mm:ss.SSS} %-5level %logger [%thread] %msg%n</pattern>
+      <charset>UTF-8</charset>
+    </encoder>
+  </appender>
+
+  <!-- The output file configuration for log/all.log -->
+  <appender name="ALL_LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+    <encoder>
+      <pattern>%date{HH:mm:ss.SSS} %-5level %logger{25}: %msg %X thread=%thread%n</pattern>
+    </encoder>
+
+    <file>log/all.log</file>
+
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- Roll over log files daily -->
+      <fileNamePattern>log/all.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+
+      <!-- And start a new file every 64 MB -->
+      <timeBasedFileNamingAndTriggeringPolicy
+          class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+        <maxFileSize>64MB</maxFileSize>
+      </timeBasedFileNamingAndTriggeringPolicy>
+
+      <!-- And keep 7 days of logs -->
+      <maxHistory>7</maxHistory>
+    </rollingPolicy>
+  </appender>
+
+  <!-- The output file configuration for log/app.log -->
+  <appender name="APP_LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+    <encoder>
+      <pattern>%date{HH:mm:ss.SSS} %-5level %logger{25}: %msg %X thread=%thread%n</pattern>
+    </encoder>
+
+    <file>log/app.log</file>
+
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- Roll over log files daily -->
+      <fileNamePattern>log/app.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+
+      <!-- And start a new file every 64 MB -->
+      <timeBasedFileNamingAndTriggeringPolicy
+          class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+        <maxFileSize>64MB</maxFileSize>
+      </timeBasedFileNamingAndTriggeringPolicy>
+
+      <!-- And keep 7 days of logs -->
+      <maxHistory>7</maxHistory>
+    </rollingPolicy>
+  </appender>
+
+  <!-- Log all warnings (and above) to the console and log/all.log -->
+  <root level="WARN">
+    <appender-ref ref="CONSOLE" />
+    <appender-ref ref="ALL_LOG_FILE" />
+  </root>
+
+  <!-- Log all messages, regardless of level, from the app to
+       log/app.log -->
+  <logger name="${app_root_logger:-com.example.application}" level="ALL">
+    <appender-ref ref="APP_LOG_FILE" />
+  </logger>
+
+  <!-- Make java.util.logging more efficient at disabled levels.
+       See http://logback.qos.ch/manual/configuration.html#LevelChangePropagator -->
+  <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+    <resetJUL>true</resetJUL>
+  </contextListener>
+</configuration>
