@@ -7,13 +7,14 @@
             [hiccup.element :refer [javascript-tag]]
             [hiccup.page :refer [html5 include-css include-js]]
             [hiccup.util :refer [to-str to-uri with-base-url escape-html]]
-            [pandect.algo.sha1 :refer [sha1-file]]
+            [pandect.algo.sha1 :refer [sha1]]
             [ring.middleware.resource :refer [resource-request]]
             [ring.middleware.not-modified :refer [wrap-not-modified]]
             [ring.util.time :refer [format-date]]
             [work-to-list.duct :as duct]
             [work-to-list.routes :as routes]
-            [work-to-list.protocols.work-to-list :as wtl]))
+            [work-to-list.protocols.work-to-list :as wtl])
+  (:import java.net.JarURLConnection))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Terminal Identification
@@ -34,11 +35,26 @@
 
 (def asset-fingerprints (atom {}))
 
+(defn last-modified [^java.net.URL resource]
+  (case (.getProtocol resource)
+    "jar" (.getLastModified
+           (cast JarURLConnection (.openConnection resource)))
+    (.lastModified (io/file resource))))
+
+(defn fingerprint [^java.net.URL resource]
+  (with-open [in (io/input-stream resource)]
+    (sha1 in)))
+
+(defn get-or-set-fingerprint [fingerprints k ^java.net.URL resource]
+  (if-let [fp (get @fingerprints k)]
+    fp
+    (get (swap! fingerprints assoc k (fingerprint resource)) k)))
+
 (defn asset [path]
-  (if-let [f (io/file (io/resource (str "public/" path)))]
-    (let [k [path (.lastModified f)]
-          fp? (get @asset-fingerprints k)
-          fp (or fp? (get (swap! asset-fingerprints assoc k (sha1-file f)) k))]
+  (if-let [resource (io/resource (str "public" path))]
+    (let [lm (last-modified resource)
+          k [path lm]
+          fp (get-or-set-fingerprint asset-fingerprints k resource)]
       (str path "?v=" fp))
     path))
 
