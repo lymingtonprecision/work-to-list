@@ -1,7 +1,8 @@
 (ns work-to-list.components.immutant-server
   (:require [com.stuartsierra.component :as component]
             [immutant.web]
-            [taoensso.timbre :as log]))
+            [taoensso.timbre :as log])
+  (:import java.lang.Integer))
 
 (def default-options
   {:host "0.0.0.0"
@@ -13,7 +14,7 @@
     (if (:server this)
       this
       (let [opts (-> (merge default-options options)
-                     (update :port #(if (nil? %) 0 %)))
+                     (update :port #(if (nil? %) 0 (Integer. %))))
             server (immutant.web/run handler opts)]
         (when (zero? (:port opts))
           (log/warn (str "no port specified, running at "
