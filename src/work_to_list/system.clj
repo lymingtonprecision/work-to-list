@@ -27,7 +27,7 @@
     :http-router (duct/ring-router
                   {:middleware [[wrap-defaults :defaults]
                                 [wrap-not-found :not-found]]
-                   :defaults site-defaults
+                   :defaults (assoc-in site-defaults [:static :resources] false)
                    :not-found "Not Found"})
     :http-server (immutant-server {:port (:wtl-port env)}))
    {:work-to-list {:db-spec :db-pool}
