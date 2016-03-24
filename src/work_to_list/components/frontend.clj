@@ -72,7 +72,7 @@
   (with-base-url uri-prefix
     (html5
      [:head
-      [:title "Work To Lists"]
+      [:title "Work To List"]
       [:meta {:charset "UTf-8"}]
       [:meta {:name "viewport" :content "width=device-width,initial-scale=1"}]
       [:link {:rel "icon" :href (url (asset "/favicon.ico")) :type "image/x-icon"}]
