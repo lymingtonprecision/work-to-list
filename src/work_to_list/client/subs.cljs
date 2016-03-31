@@ -7,7 +7,11 @@
              :refer [group-type
                      group-id
                      op-group-id-path
-                     order-by-penetration]]))
+                     order-by-penetration]]
+            [work-to-list.client.util
+             :refer [running-on-terminal?]]))
+
+(def work-to-list-row-height 36.0)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Utility fns
@@ -25,6 +29,20 @@
  (fn [db [_ & path]]
    (let [popups (reaction (:popup-states @db))]
      (reaction (get-in @popups path)))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Window sizing
+
+(register-sub :window-size (fn [db _] (reaction (:window @db))))
+
+(register-sub
+ :max-ops-for-window
+ (fn [db _]
+   (if (running-on-terminal?)
+     (let [win-size (subscribe [:window-size])]
+       (reaction (js/Math.ceil (/ (:height @win-size)
+                                  work-to-list-row-height))))
+     (reaction nil))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Path
@@ -153,12 +171,15 @@
 
 (register-sub
  :work-to-list
- (fn [db _ [group]]
+ (fn [db _ [group limit]]
    (if group
      (let [id-path (op-group-id-path (group-type group))
            f (fn [op] (= (get-in op id-path) (group-id group)))
            ops (subscribe [:operations])
            filtered-ops (reaction (filter f (vals @ops)))
-           sorted-ops (reaction (order-by-penetration @filtered-ops))]
-       (reaction (map :op/id @sorted-ops)))
+           sorted-ops (reaction (order-by-penetration @filtered-ops))
+           ops-up-to-limit (if limit
+                             (reaction (take limit @sorted-ops))
+                             sorted-ops)]
+       (reaction (map :op/id @ops-up-to-limit)))
      (reaction nil))))

@@ -8,9 +8,16 @@
             [work-to-list.client.subs]
             [work-to-list.client.views]))
 
+(defn listen-for-resize! []
+  (.addEventListener
+   js/window
+   "resize"
+   (fn [] (re-frame/dispatch [:window-resize]))))
+
 (defn ^:export run []
   (re-frame/dispatch-sync [:initialize])
   (navigation/start!)
   (socket/start!)
+  (listen-for-resize!)
   (reagent/render [work-to-list.client.views/app]
                   (.getElementById js/document "app")))

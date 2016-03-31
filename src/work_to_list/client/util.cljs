@@ -13,3 +13,7 @@
 
 (defn terminal-id []
   (some-> js/TERMINAL_ID js/parseInt (lpad 3 "0")))
+
+(defn window-dimensions []
+  {:width js/window.innerWidth
+   :height js/window.innerHeight})

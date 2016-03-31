@@ -110,7 +110,8 @@
 
 (defn work-to-list []
   (let [group (subscribe [:active-group])
-        operations (subscribe [:work-to-list] [group])]
+        max-ops-to-show (subscribe [:max-ops-for-window])
+        operations (subscribe [:work-to-list] [group max-ops-to-show])]
     (fn []
       (if (nil? @group)
         [invalid-group]

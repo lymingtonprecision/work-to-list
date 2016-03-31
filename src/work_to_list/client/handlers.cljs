@@ -5,7 +5,8 @@
             [taoensso.timbre :as log]
             [work-to-list.diff :as diff]
             [work-to-list.client.state :refer [initial-app-state]]
-            [work-to-list.client.socket :as socket]))
+            [work-to-list.client.socket :as socket]
+            [work-to-list.client.util :refer [window-dimensions]]))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Utility fns
@@ -62,6 +63,14 @@
 (register-handler :initialize initialize)
 (register-handler :reset-state first-arg replace-state)
 (register-handler :update-state first-arg update-state)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Window resizing
+
+(defn update-window-size [db]
+  (update db :window merge (window-dimensions)))
+
+(register-handler :window-resize update-window-size)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Navigation/component display
