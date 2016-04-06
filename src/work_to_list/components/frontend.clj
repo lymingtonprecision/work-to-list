@@ -115,24 +115,20 @@
         generate-index (partial index uri-prefix)
         spa-page (atom (generate-index (wtl/tasks work-to-list)))
         last-modified (atom nil)
-        expires (atom nil)
-        update-timestamps!
-        (fn []
-          (reset! last-modified (format-date (java.util.Date.)))
-          (reset! expires (format-date (ten-years-from-now))))]
-    (update-timestamps!)
+        update-last-modified!
+        (fn [] (reset! last-modified (format-date (java.util.Date.))))]
+    (update-last-modified!)
     (wtl/add-watch
      work-to-list
      (java.util.UUID/randomUUID)
      (fn [k ref old-state new-state]
        (reset! spa-page (generate-index new-state))
-       (update-timestamps!)))
+       (update-last-modified!)))
     (fn [{:keys [uri path-info] :as req}]
       (when (routes/match-route routes (or path-info uri))
         {:status 200
          :headers {"Content-Type" "text/html;charset=utf-8"
-                   "Last-Modified" @last-modified
-                   "Expires" @expires}
+                   "Last-Modified" @last-modified}
          :body (update-terminal-id @spa-page req)}))))
 
 (defn wrap-prefixed-resource [handler uri-prefix]
@@ -140,9 +136,13 @@
     (fn [req]
       (let [resource-uri (remove-prefix
                           (or (:path-info req) (:uri req))
-                          uri-prefix)]
-        (or (resource-request (assoc req :path-info resource-uri) "public")
-            (handler req))))))
+                          uri-prefix)
+            resource-resp (resource-request
+                           (assoc req :path-info resource-uri)
+                           "public")]
+        (if resource-resp
+          (assoc-in resource-resp [:headers "Expires"] (ten-years-from-now))
+          (handler req))))))
 
 (defn wrap-handler
   [handler uri-prefix]
