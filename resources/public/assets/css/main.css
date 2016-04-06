@@ -485,7 +485,7 @@ table .zone-green .bookings.popover-active>i
   }
 
   .bookings>table {
-    display: initial;
+    display: block;
     visibility: visible;
     position: absolute;
     top: 5px;
