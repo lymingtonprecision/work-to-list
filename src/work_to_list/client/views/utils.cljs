@@ -44,7 +44,7 @@
     s))
 
 (defn time-str [t]
-  (let [hm [(.getHours t) (.getMinutes t)]]
+  (let [hm [(.getUTCHours t) (.getUTCMinutes t)]]
     (string/join ":" (map #(zeropad (str %) 2) hm))))
 
 (defn int-str [n]

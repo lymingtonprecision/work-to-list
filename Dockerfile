@@ -20,6 +20,7 @@ ENV JVM_FLAGS -server \
   -Dcom.sun.management.jmxremote.port=7778 \
   -Dcom.sun.management.jmxremote.authenticate=false \
   -Dcom.sun.management.jmxremote.ssl=false \
-  -Dsun.net.inetaddr.ttl=60
+  -Dsun.net.inetaddr.ttl=60 \
+  -Duser.timezone=UTC
 
 CMD ["-jar", "/work-to-list.jar"]

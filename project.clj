@@ -68,6 +68,8 @@
 
   :main ^:skip-aot work-to-list.main
 
+  :jvm-opts ["-Duser.timezone=UTC"]
+
   :clean-targets ^{:protect false} ["resources/public/assets/js" "target"]
 
   :profiles
