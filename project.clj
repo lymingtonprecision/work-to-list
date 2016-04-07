@@ -1,4 +1,4 @@
-(defproject work-to-list "1.0.2"
+(defproject work-to-list "1.0.3-SNAPSHOT"
   :description "LPE IFS DBR Work To List display"
   :url "https://github.com/lymingtonprecision/work-to-list"
   :license {:name "Eclipse Public License"
