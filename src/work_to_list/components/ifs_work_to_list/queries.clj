@@ -1,6 +1,5 @@
 (ns work-to-list.components.ifs-work-to-list.queries
   (:require [clojure.string :as str]
-            [com.netflix.hystrix.core :refer [defcommand]]
             [schema.core :as s]
             [yesql.core :as yesql :refer [defquery]]
             [work-to-list.schema :as schema]))
@@ -84,8 +83,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Public
 
-(defcommand groups
-  {:hystrix/fallback-fn (constantly nil)}
+(defn groups
   [db-spec]
   (-groups
    {}
@@ -93,24 +91,21 @@
     :row-fn (fn [r] (update r :type keyword))
     :result-set-fn (fn [rs] (doall (group-by-type rs)))}))
 
-(defcommand open-op-clockings
-  {:hystrix/fallback-fn (constantly nil)}
+(defn open-op-clockings
   [db-spec]
   (-open-op-clockings
    {}
    {:connection db-spec
     :row-fn coerce-op-clocking-row}))
 
-(defcommand indirect-codes
-  {:hystrix/fallback-fn (constantly nil)}
+(defn indirect-codes
   [db-spec]
   (-indirect-codes
    {}
    {:connection db-spec
     :row-fn coerce-indirect-code}))
 
-(defcommand work-to-list
-  {:hystrix/fallback-fn (constantly nil)}
+(defn work-to-list
   [db-spec]
   (-work-to-list
    {}

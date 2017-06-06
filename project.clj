@@ -14,7 +14,6 @@
 
                  ;; system
                  [com.stuartsierra/component "0.3.1"]
-                 [com.netflix.hystrix/hystrix-clj "1.5.1"]
                  [environ "1.0.2"]
                  [clj-time "0.11.0"]
                  [pandect "0.5.4"]
