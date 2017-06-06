@@ -142,7 +142,8 @@ first_ops as (
     on so.contract = ip.contract
     and so.part_no = ip.part_no
   join ifsinfo.inv_part_cust_part_no ipcp
-    on so.part_no = ipcp.part_no
+    on so.contract = ipcp.contract
+    and so.part_no = ipcp.part_no
   --
   left outer join clocked_ops co
     on soo.op_id = co.op_id
@@ -247,7 +248,8 @@ rest_ops as (
     on so.contract = ip.contract
     and so.part_no = ip.part_no
   join ifsinfo.inv_part_cust_part_no ipcp
-    on so.part_no = ipcp.part_no
+    on so.contract = ipcp.contract
+    and so.part_no = ipcp.part_no
   --
   left outer join clocked_ops co
     on soo.op_id = co.op_id
