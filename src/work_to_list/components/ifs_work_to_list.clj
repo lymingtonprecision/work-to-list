@@ -2,6 +2,7 @@
   (:require [clojure.core.async :as async]
             [com.stuartsierra.component :as component]
             [schema.core :as s]
+            [taoensso.timbre :as log]
             [work-to-list.schema :as schema]
             [work-to-list.protocols.work-to-list :refer [IWorkToList]]
             [work-to-list.components.ifs-work-to-list.queries :as queries]))
@@ -62,7 +63,10 @@
   ([db-spec interval-ms]
    (let [wtl-ch (async/chan (async/sliding-buffer 1))]
      (async/go-loop []
-       (let [wtl (work-to-list db-spec)]
+       (let [wtl (try
+                   (work-to-list db-spec)
+                   (catch Exception e
+                     (log/error e "error polling database")))]
          (when (or (nil? wtl) (async/>! wtl-ch wtl))
            (async/<! (async/timeout interval-ms))
            (when-not (.closed? wtl-ch) (recur)))))
