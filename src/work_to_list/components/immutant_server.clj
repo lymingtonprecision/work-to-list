@@ -8,12 +8,21 @@
   {:host "0.0.0.0"
    :port 0})
 
+(defn remove-nil-entries [m]
+  (reduce
+    (fn [rs [k v]]
+      (if (nil? v)
+        rs
+        (assoc rs k v)))
+    {}
+    m))
+
 (defrecord ImmutantServer [options handler]
   component/Lifecycle
   (start [this]
     (if (:server this)
       this
-      (let [opts (-> (merge default-options options)
+      (let [opts (-> (merge default-options (remove-nil-entries options))
                      (update :port #(if (nil? %) 0 (Integer. %))))
             server (immutant.web/run handler opts)]
         (when (zero? (:port opts))

@@ -29,7 +29,8 @@
                                 [wrap-not-found :not-found]]
                    :defaults (assoc-in site-defaults [:static :resources] false)
                    :not-found "Not Found"})
-    :http-server (immutant-server {:port (:wtl-port env)}))
+    :http-server (immutant-server {:host (:wtl-ip env)
+                                   :port (:wtl-port env)}))
    {:work-to-list {:db-spec :db-pool}
     :sente-socket [:http-config :work-to-list]
     :frontend     [:http-config :work-to-list]
